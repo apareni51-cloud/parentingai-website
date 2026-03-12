@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParentingAI — Your Parenting Advisor, Always On Call</title>
+  <meta name="description" content="The all-in-one parenting companion. AI-powered advice personalized for your child + feeding, sleep, and health trackers. Replaces the books, the classes, and the 3 AM panic searches.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal-dark: #0D9488;
+      --teal: #14B8A6;
+      --teal-light: #2DD4BF;
+      --navy: #0F172A;
+      --navy-light: #1E293B;
+      --text: #1E293B;
+      --text-light: #64748B;
+      --bg: #FAFCFC;
+      --white: #FFFFFF;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+      --card-hover: 0 4px 12px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Logo Brand ── */
+    .brand-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .brand-logo img {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 8px;
+    }
+
+    .brand-logo-text {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .brand-logo-text .parenting {
+      font-family: 'Pacifico', cursive;
+      font-size: 32px;
+      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand-logo-text .ai {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 26px;
+      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      background: rgba(250,252,252,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .nav-logo-text {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+
+    .nav-logo-text .parenting {
+      font-family: 'Pacifico', cursive;
+      font-size: 18px;
+      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-logo-text .ai {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-cta {
+      background: var(--navy);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(20,184,166,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -15%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(20,184,166,0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 680px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(20,184,166,0.08);
+      border: 1px solid rgba(20,184,166,0.15);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teal-dark);
+      margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+      margin-bottom: 24px;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(17px, 2.2vw, 20px);
+      color: var(--text-light);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.3s both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      color: white;
+      padding: 16px 36px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(20,184,166,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(20,184,166,0.35);
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--navy);
+      padding: 16px 36px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      border: 1.5px solid rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+
+    .hero-sub {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-light);
+      opacity: 0.7;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    /* ── Pain Points ── */
+    .pain {
+      padding: 80px 24px 100px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .pain h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    .pain > p {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 17px;
+      margin-bottom: 56px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .pain-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.4s ease;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .pain-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-hover);
+    }
+
+    .pain-emoji {
+      font-size: 32px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .pain-card h3 {
+      font-weight: 700;
+      font-size: 17px;
+      margin-bottom: 10px;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .pain-card p {
+      font-size: 14.5px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ── Solution ── */
+    .solution {
+      padding: 80px 24px 100px;
+      background: var(--navy);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .solution::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(20,184,166,0.08) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .solution-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .solution h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .solution h2 em {
+      font-style: italic;
+      color: var(--teal-light);
+    }
+
+    .solution > .solution-inner > p {
+      color: #94A3B8;
+      font-size: 17px;
+      margin-bottom: 56px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      text-align: left;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: all 0.4s ease;
+    }
+
+    .feature:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(20,184,166,0.2);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .feature h3 {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+
+    /* ── App Preview ── */
+    .app-preview {
+      padding: 80px 24px 100px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .app-preview h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    .app-preview > p {
+      color: var(--text-light);
+      font-size: 17px;
+      margin-bottom: 48px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .preview-phones {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .phone-frame {
+      width: 280px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      border: 8px solid var(--navy);
+      background: var(--navy);
+      transition: transform 0.4s ease;
+    }
+
+    .phone-frame:hover {
+      transform: translateY(-8px);
+    }
+
+    .phone-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .phone-caption {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    .phone-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Pricing ── */
+    .pricing {
+      padding: 80px 24px 100px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .pricing h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+
+    .pricing > p {
+      color: var(--text-light);
+      font-size: 17px;
+      margin-bottom: 48px;
+    }
+
+    .price-compare {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .price-row-label {
+      font-size: 15px;
+      color: var(--text-light);
+    }
+
+    .price-row-cost {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--navy);
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+
+    .price-row-hero {
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      border: none;
+      padding: 20px 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(20,184,166,0.25);
+    }
+
+    .price-row-hero .price-row-label {
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+    }
+
+    .price-row-hero .price-row-cost {
+      color: white;
+      text-decoration: none;
+      opacity: 1;
+      font-size: 22px;
+    }
+
+    .price-row-hero .price-row-cost span {
+      font-size: 13px;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    .price-annual {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 32px;
+    }
+
+    .price-annual strong {
+      color: var(--teal-dark);
+    }
+
+    /* ── Footer CTA ── */
+    .final-cta {
+      padding: 80px 24px;
+      text-align: center;
+      background: var(--bg);
+    }
+
+    .final-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.3;
+    }
+
+    .final-cta p {
+      color: var(--text-light);
+      font-size: 16px;
+      margin-bottom: 32px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--teal-dark);
+      text-decoration: none;
+    }
+
+    .disclaimer {
+      font-size: 12px;
+      color: var(--text-light);
+      opacity: 0.6;
+      margin-top: 16px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .features { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding: 120px 20px 60px; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .preview-phones { gap: 24px; }
+      .phone-frame { width: 240px; }
+    }
+
+    @media (max-width: 480px) {
+      nav { padding: 12px 16px; }
+      .nav-cta { padding: 8px 18px; font-size: 13px; }
+      .phone-frame { width: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <img src="pa-heart-teal.png" alt="ParentingAI" class="nav-logo-icon">
+      <span class="nav-logo-text"><span class="parenting">Parenting</span><span class="ai">AI</span></span>
+    </a>
+    <a href="#download" class="nav-cta">Download Free</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="brand-logo">
+        <img src="pa-heart-teal.png" alt="ParentingAI">
+        <div class="brand-logo-text">
+          <span class="parenting">Parenting</span>
+          <span class="ai">AI</span>
+        </div>
+      </div>
+      <h1>The parenting advisor that <em>actually knows</em> your child</h1>
+      <p>Books don't know your kid. Classes end. Searching online at 3 AM gives you 47 opinions. ParentingAI gives you one clear answer — personalized for your child's exact age and stage.</p>
+      <div class="hero-ctas">
+        <a href="#download" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+          Download for iPhone
+        </a>
+        <a href="#features" class="btn-secondary">See what's inside</a>
+      </div>
+      <p class="hero-sub">Free to try · Premium $9.99/mo</p>
+    </div>
+  </section>
+
+  <!-- Pain Points -->
+  <section class="pain" id="features">
+    <h2>Parenting is hard. Your apps shouldn't be.</h2>
+    <p>Sound familiar?</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <span class="pain-emoji">😴</span>
+        <h3>It's 3 AM. Baby won't sleep.</h3>
+        <p>You search "4 month sleep regression" and find 47 conflicting answers. Now you're more confused and more awake.</p>
+      </div>
+      <div class="pain-card">
+        <span class="pain-emoji">😤</span>
+        <h3>Meltdown in aisle 7.</h3>
+        <p>Your toddler is screaming. Everyone's staring. You need the right words right now — not a 300-page parenting book.</p>
+      </div>
+      <div class="pain-card">
+        <span class="pain-emoji">👩‍⚕️</span>
+        <h3>"How many wet diapers today?"</h3>
+        <p>The pediatrician asks. You stare blankly. You think maybe 6? Or was that yesterday?</p>
+      </div>
+      <div class="pain-card">
+        <span class="pain-emoji">📱</span>
+        <h3>8 apps. Still no answers.</h3>
+        <p>One for feeding. One for sleep. One for diapers. One for growth. A notes app. Browser tabs from 2 AM. None of them talk to each other — and none of them actually give you advice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section class="solution">
+    <div class="solution-inner">
+      <h2>One app that <em>replaces them all</em></h2>
+      <p>The parenting books, the baby classes, the sleep consultants, the 8 tracker apps, and the late-night searches — all in one place, for a fraction of the cost.</p>
+      <div class="features">
+        <div class="feature">
+          <span class="feature-icon">💬</span>
+          <h3>AI Advisor, Always On Call</h3>
+          <p>Ask anything about your child. Get personalized, age-specific answers in seconds. It remembers every conversation — follow up tomorrow and it already has context.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">📊</span>
+          <h3>Every Tracker You Need</h3>
+          <p>Feeding, sleep, diapers, health, growth, medicine, and daily journal — all in one tap. Walk into the pediatrician with data, not guesses.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">📚</span>
+          <h3>Your Parenting Playbook</h3>
+          <p>Save every answer that works. Organize by topic. Build a personal library that grows with your child — the guide you wish existed from day one.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🌱</span>
+          <h3>Newborn to Teen</h3>
+          <p>Age-appropriate advice that evolves. What works for a 4-month-old is different from a 4-year-old. ParentingAI knows the difference.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">👨‍👩‍👧‍👦</span>
+          <h3>Multiple Kids? Covered.</h3>
+          <p>Each child gets their own profile, trackers, conversation history, and library. Switch between them instantly.</p>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">📋</span>
+          <h3>Pediatrician-Ready Reports</h3>
+          <p>Beautiful charts and export-ready logs for every visit. Feeding frequency, sleep patterns, diaper counts, symptoms — all dated and organized.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Preview -->
+  <section class="app-preview">
+    <h2>See it in action</h2>
+    <p>Real questions. Real answers. Personalized for your child.</p>
+    <div class="preview-phones">
+      <div class="phone-wrapper">
+        <div class="phone-frame">
+          <img src="screenshot-sleep.png" alt="ParentingAI sleep regression conversation">
+        </div>
+        <p class="phone-caption">Ask about sleep regressions</p>
+      </div>
+      <div class="phone-wrapper">
+        <div class="phone-frame">
+          <img src="screenshot-naps.png" alt="ParentingAI nap advice conversation">
+        </div>
+        <p class="phone-caption">Get actionable nap advice</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing">
+    <h2>Less than one parenting book a month</h2>
+    <p>Everything parents spend separately — replaced by one app.</p>
+    <div class="price-compare">
+      <div class="price-row">
+        <span class="price-row-label">Baby tracker app</span>
+        <span class="price-row-cost">$10/mo</span>
+      </div>
+      <div class="price-row">
+        <span class="price-row-label">Sleep consultant (1 session)</span>
+        <span class="price-row-cost">$150</span>
+      </div>
+      <div class="price-row">
+        <span class="price-row-label">Parenting book</span>
+        <span class="price-row-cost">$18</span>
+      </div>
+      <div class="price-row">
+        <span class="price-row-label">Baby class (8 weeks)</span>
+        <span class="price-row-cost">$200</span>
+      </div>
+      <div class="price-row price-row-hero">
+        <span class="price-row-label">ParentingAI — all of the above + more</span>
+        <span class="price-row-cost">$9.99<span>/mo</span></span>
+      </div>
+    </div>
+    <p class="price-annual">Or save 50% with annual: <strong>$59.99/year</strong> — just $4.99/mo</p>
+    <a href="#download" class="btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+      Download Free on iPhone
+    </a>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta" id="download">
+    <h2>Your pediatrician is available 15 minutes a year. We're here for the other 525,585.</h2>
+    <p>Free to try. Cancel anytime. Your data stays yours.</p>
+    <a href="https://apps.apple.com/app/parentingai" class="btn-primary" style="font-size: 18px; padding: 18px 44px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+      Get ParentingAI Free
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 ParentingAI &middot; <a href="mailto:hello@parentingai.co">hello@parentingai.co</a></p>
+    <p class="disclaimer">ParentingAI is for informational purposes only and is not a substitute for professional medical advice. Always consult your pediatrician or healthcare provider for medical concerns.</p>
+  </footer>
+
+</body>
+</html>
