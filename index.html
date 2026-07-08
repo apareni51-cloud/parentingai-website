@@ -3,30 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ParentingAI — Your Parenting Advisor, Always On Call</title>
-  <meta name="description" content="The all-in-one parenting companion. AI-powered advice personalized for your child + feeding, sleep, and health trackers. Replaces the books, the classes, and the 3 AM panic searches.">
+  <meta name="color-scheme" content="light">
+  <title>ParentingAI — Your Parenting Sidekick</title>
+  <meta name="description" content="The all-in-one parenting companion. AI-powered advice personalized for your child, plus feeding, sleep, and health trackers. Replaces the books, the classes, and the 3 AM panic searches.">
+  <meta property="og:title" content="ParentingAI — Your Parenting Sidekick">
+  <meta property="og:description" content="AI-powered parenting advice personalized for your child. Ask anything. Track everything. Build your parenting playbook.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://parentingai.co">
+  <link rel="canonical" href="https://parentingai.co">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --teal-dark: #0D9488;
-      --teal: #14B8A6;
+      /* App color tokens (constants/theme.ts — Set 11) */
+      --navy: #031C3A;          /* Night Navy — app bg (dark) */
+      --navy-2: #0A3055;        /* onboarding gradient mid */
+      --navy-3: #0D4A6B;        /* onboarding gradient peak */
+      --navy-card: #0D2538;     /* app dark card surface */
+      --teal: #006878;          /* ParentingAI Teal (brand) */
+      --teal-bright: #14B8A6;
       --teal-light: #2DD4BF;
-      --navy: #0F172A;
-      --navy-light: #1E293B;
-      --text: #1E293B;
-      --text-light: #64748B;
-      --bg: #FAFCFC;
-      --white: #FFFFFF;
-      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
-      --card-hover: 0 4px 12px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.06);
+      --teal-glow: #5EEAD4;
+      --bg: #F9FBFC;            /* app light bg */
+      --card: #FFFFFF;
+      --chip: #F4F7F9;
+      --text: #0D2538;         /* app primary text */
+      --subtext: #7A8595;      /* app secondary text */
+      --border: #E5E7EB;
+      --card-shadow: 0 1px 3px rgba(3,28,58,0.06), 0 10px 30px rgba(3,28,58,0.05);
+      --card-hover: 0 6px 16px rgba(3,28,58,0.09), 0 20px 50px rgba(3,28,58,0.07);
+      --radius-card: 20px;
+      --radius-pill: 999px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', -apple-system, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text);
       background: var(--bg);
       line-height: 1.6;
@@ -34,682 +49,263 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Logo Brand ── */
-    .brand-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 40px;
-      animation: fadeInUp 0.8s ease;
-    }
+    h1, h2, h3, h4 { font-family: 'Inter', sans-serif; letter-spacing: -0.02em; }
 
-    .brand-logo img {
-      width: 72px;
-      height: 72px;
-      margin-bottom: 8px;
-    }
+    /* ── Wordmark (solid bold sans lockup — matches in-app header) ── */
+    .wordmark { display: inline-flex; align-items: baseline; gap: 1px; font-family: 'Poppins', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+    .wordmark .parenting { color: #0D2538; }
+    .wordmark .ai { color: #0A8FA3; }
+    .wordmark.on-navy .parenting { color: #FFFFFF; }
+    .wordmark.on-navy .ai { color: var(--teal-light); }
 
-    .brand-logo-text {
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
+    /* ── Buttons ── */
+    .btn-primary {
+      background: linear-gradient(135deg, #0D9488, var(--teal-bright));
+      color: #fff; padding: 16px 34px; border-radius: var(--radius-pill);
+      text-decoration: none; font-weight: 700; font-size: 16px;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: transform .25s ease, box-shadow .25s ease;
+      box-shadow: 0 6px 20px rgba(20,184,166,0.30);
+      border: none; cursor: pointer;
     }
-
-    .brand-logo-text .parenting {
-      font-family: 'Pacifico', cursive;
-      font-size: 32px;
-      padding-bottom: 6px;
-      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(20,184,166,0.38); }
+    .btn-ghost-light {
+      background: rgba(255,255,255,0.06); color: #fff; padding: 16px 32px;
+      border-radius: var(--radius-pill); text-decoration: none; font-weight: 600; font-size: 16px;
+      border: 1.5px solid rgba(255,255,255,0.22); transition: all .25s ease;
+      display: inline-flex; align-items: center; gap: 8px;
     }
-
-    .brand-logo-text .ai {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 26px;
-      padding-bottom: 6px;
-      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .btn-ghost-light:hover { background: rgba(255,255,255,0.12); border-color: rgba(94,234,212,0.6); }
+    .btn-secondary {
+      background: var(--card); color: var(--navy); padding: 16px 32px;
+      border-radius: var(--radius-pill); text-decoration: none; font-weight: 600; font-size: 16px;
+      border: 1.5px solid var(--border); transition: all .25s ease;
     }
+    .btn-secondary:hover { border-color: var(--teal-bright); transform: translateY(-2px); }
+    .apple-icon { width: 20px; height: 20px; fill: currentColor; }
 
     /* ── Nav ── */
     nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 100;
-      background: rgba(250,252,252,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0,0,0,0.04);
+      position: fixed; top: 0; width: 100%; padding: 14px 24px; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(249,251,252,0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(3,28,58,0.05);
     }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .nav-logo-icon {
-      width: 36px;
-      height: 36px;
-    }
-
-    .nav-logo-text {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-    }
-
-    .nav-logo-text .parenting {
-      font-family: 'Pacifico', cursive;
-      font-size: 18px;
-      padding-bottom: 4px;
-      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .nav-logo-text .ai {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      padding-bottom: 4px;
-      color: #0D9488;
-      background: linear-gradient(135deg, #0D9488, #14B8A6, #2DD4BF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
+    .nav-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+    .nav-logo img { width: 34px; height: 34px; }
+    .nav-logo .wordmark .parenting { font-size: 18px; }
+    .nav-logo .wordmark .ai { font-size: 15px; }
+    .nav-right { display: flex; align-items: center; gap: 26px; }
+    .nav-link { font-size: 14px; font-weight: 500; color: var(--subtext); text-decoration: none; transition: color .2s; }
+    .nav-link:hover { color: var(--teal); }
     .nav-cta {
-      background: var(--navy);
-      color: white;
-      padding: 10px 24px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #0D9488, var(--teal-bright)); color: #fff;
+      padding: 10px 22px; border-radius: var(--radius-pill); text-decoration: none; font-weight: 600; font-size: 14px;
+      transition: transform .2s ease, box-shadow .2s ease; box-shadow: 0 4px 14px rgba(20,184,166,0.28);
     }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(20,184,166,0.36); }
 
-    .nav-cta:hover {
-      background: var(--teal-dark);
-      transform: translateY(-1px);
-    }
-
-    /* ── Hero ── */
+    /* ── Hero (navy, onboarding-style) ── */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 120px 24px 80px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px; overflow: hidden;
+      background: linear-gradient(160deg, #031C3A 0%, #0A3055 32%, #0D4A6B 50%, #0A3055 70%, #031C3A 100%);
     }
-
+    /* radial glow behind logo, like the app welcome screen */
     .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(20,184,166,0.06) 0%, transparent 70%);
-      border-radius: 50%;
+      content: ''; position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+      width: 620px; height: 620px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(20,184,166,0.22) 0%, rgba(20,184,166,0.06) 40%, transparent 70%);
       pointer-events: none;
     }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -30%;
-      left: -15%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(20,184,166,0.04) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .hero-content {
-      max-width: 680px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(20,184,166,0.08);
-      border: 1px solid rgba(20,184,166,0.15);
-      padding: 8px 16px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--teal-dark);
-      margin-bottom: 32px;
-      animation: fadeInUp 0.8s ease;
-    }
-
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-logo { width: 84px; height: 84px; margin: 0 auto 14px; display: block; animation: floaty 6s ease-in-out infinite; }
+    .hero .wordmark { margin-bottom: 30px; }
+    .hero .wordmark .parenting { font-size: 34px; }
+    .hero .wordmark .ai { font-size: 29px; }
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(40px, 6vw, 64px);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--navy);
-      margin-bottom: 24px;
-      animation: fadeInUp 0.8s ease 0.1s both;
+      font-size: clamp(34px, 5.6vw, 58px); font-weight: 800; line-height: 1.08; color: #fff;
+      margin-bottom: 20px;
     }
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--teal-light), var(--teal-glow));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p.sub { font-size: clamp(16px, 2vw, 19px); color: rgba(255,255,255,0.72); max-width: 540px; margin: 0 auto 34px; line-height: 1.7; }
+    .hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .hero-pricing { margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.6); }
+    .hero-pricing strong { color: var(--teal-glow); font-weight: 700; }
+    /* floating teal particles */
+    .particle { position: absolute; border-radius: 50%; background: var(--teal-light); opacity: .5; pointer-events: none; animation: rise linear infinite; }
 
-    .hero h1 em {
-      font-style: italic;
-      background: linear-gradient(135deg, var(--teal-dark), var(--teal-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: .5; } 100% { transform: translateY(-120px); opacity: 0; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .hero p {
-      font-size: clamp(17px, 2.2vw, 20px);
-      color: var(--text-light);
-      max-width: 540px;
-      margin: 0 auto 40px;
-      line-height: 1.7;
-      animation: fadeInUp 0.8s ease 0.2s both;
-    }
+    /* ── Trust row ── */
+    .trust { background: var(--navy); padding: 0 24px 46px; text-align: center; }
+    .trust-inner { display: flex; justify-content: center; align-items: center; gap: 34px; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: rgba(255,255,255,0.62); }
+    .trust-item strong { color: #fff; font-weight: 700; }
+    .trust-stars { color: #FBBF24; font-size: 16px; }
 
-    .hero-ctas {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease 0.3s both;
-    }
+    /* ── Section base ── */
+    section.light-block { padding: 88px 24px 96px; max-width: 1100px; margin: 0 auto; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.14em; font-size: 12px; font-weight: 700; color: var(--teal); text-align: center; margin-bottom: 12px; }
+    .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 800; text-align: center; color: var(--navy); margin-bottom: 14px; line-height: 1.15; }
+    .section-sub { text-align: center; color: var(--subtext); font-size: 17px; max-width: 520px; margin: 0 auto 52px; }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
-      color: white;
-      padding: 16px 36px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 16px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(20,184,166,0.3);
-    }
+    /* ── Pain cards ── */
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .pain-card { background: var(--card); border-radius: var(--radius-card); padding: 30px 26px; box-shadow: var(--card-shadow); border: 1px solid rgba(3,28,58,0.04); transition: transform .3s ease, box-shadow .3s ease; }
+    .pain-card:hover { transform: translateY(-4px); box-shadow: var(--card-hover); }
+    .pain-emoji { font-size: 30px; margin-bottom: 14px; display: block; }
+    .pain-card h3 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 9px; line-height: 1.3; }
+    .pain-card p { font-size: 14.5px; color: var(--subtext); line-height: 1.6; }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(20,184,166,0.35);
-    }
+    /* ── Solution (navy, mirrors app greeting card) ── */
+    .solution { background: var(--navy); color: #fff; padding: 92px 24px 100px; position: relative; overflow: hidden; }
+    .solution::before { content: ''; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; border-radius: 50%; background: radial-gradient(circle, rgba(20,184,166,0.10) 0%, transparent 60%); pointer-events: none; }
+    .solution-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+    .solution .eyebrow { color: var(--teal-light); }
+    .solution .section-title { color: #fff; }
+    .solution .section-title .accent { background: linear-gradient(135deg, var(--teal-light), var(--teal-glow)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .solution .section-sub { color: #94A3B8; }
+    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left; }
+    .feature { background: var(--navy-card); border: 1px solid rgba(94,234,212,0.10); border-radius: var(--radius-card); padding: 26px 24px; transition: transform .3s ease, border-color .3s ease; }
+    .feature:hover { transform: translateY(-3px); border-color: rgba(94,234,212,0.35); }
+    .feature-icon { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 13px; background: rgba(20,184,166,0.14); font-size: 22px; margin-bottom: 14px; }
+    .feature h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 7px; }
+    .feature p { font-size: 14px; color: #94A3B8; line-height: 1.6; }
 
-    .btn-secondary {
-      background: var(--white);
-      color: var(--navy);
-      padding: 16px 36px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      border: 1.5px solid rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--teal);
-      transform: translateY(-2px);
-    }
-
-    .hero-sub {
-      margin-top: 20px;
-      font-size: 13px;
-      color: var(--text-light);
-      opacity: 0.7;
-      animation: fadeInUp 0.8s ease 0.4s both;
-    }
-
-    /* ── Pain Points ── */
-    .pain {
-      padding: 80px 24px 100px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .pain h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 16px;
-      color: var(--navy);
-    }
-
-    .pain > p {
-      text-align: center;
-      color: var(--text-light);
-      font-size: 17px;
-      margin-bottom: 56px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .pain-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
-
-    .pain-card {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 32px 28px;
-      box-shadow: var(--card-shadow);
-      transition: all 0.4s ease;
-      border: 1px solid rgba(0,0,0,0.03);
-    }
-
-    .pain-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--card-hover);
-    }
-
-    .pain-emoji {
-      font-size: 32px;
-      margin-bottom: 16px;
-      display: block;
-    }
-
-    .pain-card h3 {
-      font-weight: 700;
-      font-size: 17px;
-      margin-bottom: 10px;
-      color: var(--navy);
-      line-height: 1.3;
-    }
-
-    .pain-card p {
-      font-size: 14.5px;
-      color: var(--text-light);
-      line-height: 1.6;
-    }
-
-    /* ── Solution ── */
-    .solution {
-      padding: 80px 24px 100px;
-      background: var(--navy);
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .solution::before {
-      content: '';
-      position: absolute;
-      top: -40%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 900px;
-      height: 900px;
-      background: radial-gradient(circle, rgba(20,184,166,0.08) 0%, transparent 60%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .solution-inner {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .solution h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 700;
-      margin-bottom: 16px;
-      line-height: 1.2;
-    }
-
-    .solution h2 em {
-      font-style: italic;
-      color: var(--teal-light);
-    }
-
-    .solution > .solution-inner > p {
-      color: #94A3B8;
-      font-size: 17px;
-      margin-bottom: 56px;
-      max-width: 560px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      text-align: left;
-    }
-
-    .feature {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 28px 24px;
-      transition: all 0.4s ease;
-    }
-
-    .feature:hover {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(20,184,166,0.2);
-      transform: translateY(-2px);
-    }
-
-    .feature-icon {
-      font-size: 28px;
-      margin-bottom: 14px;
-      display: block;
-    }
-
-    .feature h3 {
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: white;
-    }
-
-    .feature p {
-      font-size: 14px;
-      color: #94A3B8;
-      line-height: 1.6;
-    }
-
-    /* ── App Preview ── */
-    .app-preview {
-      padding: 80px 24px 100px;
-      max-width: 1100px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .app-preview h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--navy);
-    }
-
-    .app-preview > p {
-      color: var(--text-light);
-      font-size: 17px;
-      margin-bottom: 48px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .preview-phones {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-
-    .phone-frame {
-      width: 280px;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
-      border: 8px solid var(--navy);
-      background: var(--navy);
-      transition: transform 0.4s ease;
-    }
-
-    .phone-frame:hover {
-      transform: translateY(-8px);
-    }
-
-    .phone-frame img {
-      width: 100%;
-      display: block;
-    }
-
-    .phone-caption {
-      margin-top: 16px;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-light);
-    }
-
-    .phone-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    /* ── App preview ── */
+    .app-preview { text-align: center; }
+    .preview-phones { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .phone-frame { width: 268px; border-radius: 30px; overflow: hidden; box-shadow: 0 12px 44px rgba(3,28,58,0.16), 0 3px 10px rgba(3,28,58,0.08); background: #0D2538; padding: 8px; transition: transform .35s ease; }
+    .phone-frame:hover { transform: translateY(-8px); }
+    .phone-frame img { width: 100%; height: auto; display: block; border-radius: 22px; }
+    .phone-caption { margin-top: 15px; font-size: 14px; font-weight: 600; color: var(--subtext); }
 
     /* ── Pricing ── */
-    .pricing {
-      padding: 80px 24px 100px;
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
-    }
+    .pricing { max-width: 760px; }
+    .price-card { background: var(--card); border-radius: 24px; box-shadow: var(--card-shadow); border: 1px solid var(--border); padding: 8px; margin-bottom: 34px; }
+    .price-compare { display: flex; flex-direction: column; gap: 8px; padding: 22px 22px 8px; }
+    .price-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-radius: 12px; background: var(--chip); }
+    .price-row-label { font-size: 15px; color: var(--subtext); }
+    .price-row-cost { font-weight: 700; font-size: 15px; color: var(--navy); text-decoration: line-through; opacity: .5; }
+    .price-hero { display: flex; justify-content: space-between; align-items: center; margin: 14px 14px 18px; padding: 22px 24px; border-radius: 18px; background: linear-gradient(135deg, #0D9488, var(--teal-bright)); box-shadow: 0 8px 26px rgba(20,184,166,0.28); }
+    .price-hero .ph-label { color: rgba(255,255,255,0.92); font-weight: 600; font-size: 15px; text-align: left; }
+    .price-hero .ph-label small { display: block; font-weight: 500; font-size: 12.5px; opacity: .85; margin-top: 2px; }
+    .price-hero .ph-cost { color: #fff; font-weight: 800; font-size: 30px; white-space: nowrap; }
+    .price-hero .ph-cost span { font-size: 14px; font-weight: 500; opacity: .85; }
+    .price-note { font-size: 14px; color: var(--subtext); margin-bottom: 30px; }
+    .price-note strong { color: var(--teal); }
 
-    .pricing h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--navy);
-    }
+    /* ── Blog ── */
+    .blog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 38px; }
+    .blog-header h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 800; color: var(--navy); }
+    .blog-header a { font-size: 15px; font-weight: 600; color: var(--teal); text-decoration: none; }
+    .blog-header a:hover { color: var(--teal-bright); }
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+    .blog-card { background: var(--card); border-radius: var(--radius-card); padding: 30px 28px; box-shadow: var(--card-shadow); border: 1px solid rgba(3,28,58,0.04); text-decoration: none; transition: transform .3s ease, box-shadow .3s ease; display: flex; flex-direction: column; }
+    .blog-card:hover { transform: translateY(-4px); box-shadow: var(--card-hover); }
+    .blog-cat { display: inline-block; background: rgba(20,184,166,0.10); border: 1px solid rgba(20,184,166,0.18); padding: 3px 12px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; color: var(--teal); margin-bottom: 14px; width: fit-content; }
+    .blog-card h3 { font-size: 19px; font-weight: 700; color: var(--navy); line-height: 1.3; margin-bottom: 10px; }
+    .blog-card p { font-size: 14px; color: var(--subtext); line-height: 1.6; flex: 1; }
+    .blog-read { margin-top: 16px; font-size: 14px; font-weight: 600; color: var(--teal); }
 
-    .pricing > p {
-      color: var(--text-light);
-      font-size: 17px;
-      margin-bottom: 48px;
-    }
-
-    .price-compare {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 40px;
-    }
-
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 20px;
-      background: var(--white);
-      border-radius: 12px;
-      border: 1px solid rgba(0,0,0,0.04);
-    }
-
-    .price-row-label {
-      font-size: 15px;
-      color: var(--text-light);
-    }
-
-    .price-row-cost {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--navy);
-      text-decoration: line-through;
-      opacity: 0.5;
-    }
-
-    .price-row-hero {
-      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
-      border: none;
-      padding: 20px 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(20,184,166,0.25);
-    }
-
-    .price-row-hero .price-row-label {
-      color: rgba(255,255,255,0.9);
-      font-weight: 600;
-    }
-
-    .price-row-hero .price-row-cost {
-      color: white;
-      text-decoration: none;
-      opacity: 1;
-      font-size: 22px;
-    }
-
-    .price-row-hero .price-row-cost span {
-      font-size: 13px;
-      font-weight: 400;
-      opacity: 0.8;
-    }
-
-    .price-annual {
-      font-size: 14px;
-      color: var(--text-light);
-      margin-bottom: 32px;
-    }
-
-    .price-annual strong {
-      color: var(--teal-dark);
-    }
-
-    /* ── Footer CTA ── */
-    .final-cta {
-      padding: 80px 24px;
-      text-align: center;
-      background: var(--bg);
-    }
-
-    .final-cta h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(24px, 3.5vw, 36px);
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 12px;
-      max-width: 580px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.3;
-    }
-
-    .final-cta p {
-      color: var(--text-light);
-      font-size: 16px;
-      margin-bottom: 32px;
-    }
+    /* ── Final CTA (navy band) ── */
+    .final-cta { background: linear-gradient(160deg, #031C3A, #0A3055 60%, #031C3A); color: #fff; text-align: center; padding: 90px 24px; position: relative; overflow: hidden; }
+    .final-cta::before { content: ''; position: absolute; bottom: -40%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(20,184,166,0.14) 0%, transparent 65%); pointer-events: none; }
+    .final-cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+    .final-cta h2 { font-size: clamp(26px, 3.8vw, 38px); font-weight: 800; margin-bottom: 12px; line-height: 1.25; }
+    .final-cta p { color: rgba(255,255,255,0.68); font-size: 16px; margin-bottom: 30px; }
 
     /* ── Footer ── */
-    footer {
-      padding: 40px 24px;
-      text-align: center;
-      border-top: 1px solid rgba(0,0,0,0.05);
-    }
-
-    footer p {
-      font-size: 13px;
-      color: var(--text-light);
-    }
-
-    footer a {
-      color: var(--teal-dark);
-      text-decoration: none;
-    }
-
-    .disclaimer {
-      font-size: 12px;
-      color: var(--text-light);
-      opacity: 0.6;
-      margin-top: 16px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ── Animations ── */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    footer { background: var(--navy); padding: 54px 24px 40px; color: #fff; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 34px; }
+    .footer-brand { max-width: 300px; }
+    .footer-brand .footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; text-decoration: none; }
+    .footer-brand .footer-logo img { width: 28px; height: 28px; }
+    .footer-brand .wordmark .parenting { font-size: 16px; }
+    .footer-brand .wordmark .ai { font-size: 14px; }
+    .footer-brand p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+    .footer-links { display: flex; gap: 52px; flex-wrap: wrap; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .footer-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 9px; transition: color .2s; }
+    .footer-col a:hover { color: var(--teal-light); }
+    .footer-bottom { max-width: 1100px; margin: 34px auto 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; }
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
       .features { grid-template-columns: 1fr; }
-      .hero { min-height: auto; padding: 120px 20px 60px; }
+      .hero { min-height: auto; padding: 116px 20px 64px; }
       .hero-ctas { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; }
+      .btn-primary, .btn-ghost-light, .btn-secondary { width: 100%; max-width: 320px; justify-content: center; }
       .pain-grid { grid-template-columns: 1fr; }
-      .preview-phones { gap: 24px; }
-      .phone-frame { width: 240px; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-header { flex-direction: column; gap: 10px; }
+      .footer-inner { flex-direction: column; }
+      .nav-link { display: none; }
+      .trust-inner { gap: 18px; }
+      .price-hero { flex-direction: column; gap: 10px; text-align: center; }
+      .price-hero .ph-label { text-align: center; }
     }
-
-    @media (max-width: 480px) {
-      nav { padding: 12px 16px; }
-      .nav-cta { padding: 8px 18px; font-size: 13px; }
-      .phone-frame { width: 200px; }
-    }
+    @media (max-width: 480px) { nav { padding: 12px 16px; } .nav-cta { padding: 8px 16px; font-size: 13px; } .phone-frame { width: 220px; } }
   </style>
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a href="#" class="nav-logo">
-      <img src="pa-heart-teal.png" alt="ParentingAI" class="nav-logo-icon">
-      <span class="nav-logo-text"><span class="parenting">Parenting</span><span class="ai">AI</span></span>
+    <a href="/" class="nav-logo">
+      <img src="pa-heart-teal.png" alt="ParentingAI logo">
+      <span class="wordmark"><span class="parenting">Parenting</span><span class="ai">AI</span></span>
     </a>
-    <a href="#download" class="nav-cta">Download Free</a>
+    <div class="nav-right">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#download" class="nav-cta">Download Free</a>
+    </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero (navy, onboarding-style) -->
   <section class="hero">
+    <span class="particle" style="left:40%; bottom:36%; width:5px; height:5px; animation-duration:6s;"></span>
+    <span class="particle" style="left:56%; bottom:40%; width:4px; height:4px; animation-duration:7s; animation-delay:1s;"></span>
+    <span class="particle" style="left:47%; bottom:32%; width:6px; height:6px; animation-duration:5.5s; animation-delay:.5s;"></span>
+    <span class="particle" style="left:60%; bottom:38%; width:3px; height:3px; animation-duration:6.5s; animation-delay:1.4s;"></span>
+    <span class="particle" style="left:38%; bottom:42%; width:4px; height:4px; animation-duration:6.2s; animation-delay:.8s;"></span>
     <div class="hero-content">
-      <div class="brand-logo">
-        <img src="pa-heart-teal.png" alt="ParentingAI">
-        <div class="brand-logo-text">
-          <span class="parenting">Parenting</span>
-          <span class="ai">AI</span>
-        </div>
-      </div>
-      <h1>The parenting advisor that <em>actually knows</em> your child</h1>
-      <p>Books don't know your kid. Classes end. Searching online at 3 AM gives you 47 opinions. ParentingAI gives you one clear answer — personalized for your child's exact age and stage.</p>
+      <img src="pa-heart-white.png" alt="ParentingAI" class="hero-logo">
+      <div class="wordmark on-navy"><span class="parenting">Parenting</span><span class="ai">AI</span></div>
+      <h1>Your parenting advisor that <span class="accent">actually knows</span> your child</h1>
+      <p class="sub">Books don't know your kid. Classes end. Searching at 3 AM gives you 47 opinions. ParentingAI gives you one clear answer — personalized for your child's exact age and stage.</p>
       <div class="hero-ctas">
         <a href="#download" class="btn-primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+          <svg class="apple-icon" viewBox="0 0 24 24"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
           Download for iPhone
         </a>
-        <a href="#features" class="btn-secondary">See what's inside</a>
+        <a href="#features" class="btn-ghost-light">See what's inside</a>
       </div>
-      <p class="hero-sub">Free to try · Premium $9.99/mo</p>
+      <p class="hero-pricing">Free to try · <strong>$4.99/mo</strong> billed annually · cancel anytime</p>
     </div>
   </section>
 
-  <!-- Pain Points -->
-  <section class="pain" id="features">
-    <h2>Parenting is hard. Your apps shouldn't be.</h2>
-    <p>Sound familiar?</p>
+  <!-- Trust row -->
+  <div class="trust">
+    <div class="trust-inner">
+      <div class="trust-item"><span class="trust-stars">★★★★★</span><span><strong>Loved</strong> by early parents</span></div>
+      <div class="trust-item"><span>👶</span><span>Built for <strong>ages 0–18</strong></span></div>
+      <div class="trust-item"><span>🔒</span><span><strong>Private</strong> · your data stays yours</span></div>
+    </div>
+  </div>
+
+  <!-- Pain points -->
+  <section class="light-block" id="features">
+    <p class="eyebrow">Sound familiar?</p>
+    <h2 class="section-title">Parenting is hard. Your apps shouldn't be.</h2>
     <div class="pain-grid">
       <div class="pain-card">
         <span class="pain-emoji">😴</span>
@@ -719,17 +315,17 @@
       <div class="pain-card">
         <span class="pain-emoji">😤</span>
         <h3>Meltdown in aisle 7.</h3>
-        <p>Your toddler is screaming. Everyone's staring. You need the right words right now — not a 300-page parenting book.</p>
+        <p>Your toddler is screaming. Everyone's staring. You need the right words right now — not a 300-page book.</p>
       </div>
       <div class="pain-card">
-        <span class="pain-emoji">👩‍⚕️</span>
+        <span class="pain-emoji">🩺</span>
         <h3>"How many wet diapers today?"</h3>
         <p>The pediatrician asks. You stare blankly. You think maybe 6? Or was that yesterday?</p>
       </div>
       <div class="pain-card">
         <span class="pain-emoji">📱</span>
         <h3>8 apps. Still no answers.</h3>
-        <p>One for feeding. One for sleep. One for diapers. One for growth. A notes app. Browser tabs from 2 AM. None of them talk to each other — and none of them actually give you advice.</p>
+        <p>One for feeding. One for sleep. One for diapers. None of them talk to each other — and none actually give you advice.</p>
       </div>
     </div>
   </section>
@@ -737,8 +333,9 @@
   <!-- Solution -->
   <section class="solution">
     <div class="solution-inner">
-      <h2>One app that <em>replaces them all</em></h2>
-      <p>The parenting books, the baby classes, the sleep consultants, the 8 tracker apps, and the late-night searches — all in one place, for a fraction of the cost.</p>
+      <p class="eyebrow">One app, everything</p>
+      <h2 class="section-title">One app that <span class="accent">replaces them all</span></h2>
+      <p class="section-sub">The parenting books, the baby classes, the sleep consultants, the 8 tracker apps, and the late-night searches — all in one place, for a fraction of the cost.</p>
       <div class="features">
         <div class="feature">
           <span class="feature-icon">💬</span>
@@ -748,7 +345,7 @@
         <div class="feature">
           <span class="feature-icon">📊</span>
           <h3>Every Tracker You Need</h3>
-          <p>Feeding, sleep, diapers, health, growth, medicine, and daily journal — all in one tap. Walk into the pediatrician with data, not guesses.</p>
+          <p>Feeding, sleep, diapers, health, growth, medicine, and a daily journal — all in one tap. Walk into the pediatrician with data, not guesses.</p>
         </div>
         <div class="feature">
           <span class="feature-icon">📚</span>
@@ -768,76 +365,99 @@
         <div class="feature">
           <span class="feature-icon">📋</span>
           <h3>Pediatrician-Ready Reports</h3>
-          <p>Beautiful charts and export-ready logs for every visit. Feeding frequency, sleep patterns, diaper counts, symptoms — all dated and organized.</p>
+          <p>Clean charts and export-ready logs for every visit. Feeding frequency, sleep patterns, diaper counts, symptoms — all dated and organized.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- App Preview -->
-  <section class="app-preview">
-    <h2>See it in action</h2>
-    <p>Real questions. Real answers. Personalized for your child.</p>
+  <!-- App preview -->
+  <section class="light-block app-preview">
+    <p class="eyebrow">See it in action</p>
+    <h2 class="section-title">Real questions. Real answers.</h2>
+    <p class="section-sub">Personalized for your child, right down to their age in months.</p>
     <div class="preview-phones">
-      <div class="phone-wrapper">
-        <div class="phone-frame">
-          <img src="screenshot-sleep.png" alt="ParentingAI sleep regression conversation">
-        </div>
-        <p class="phone-caption">Ask about sleep regressions</p>
+      <div>
+        <div class="phone-frame"><img src="screenshot-home.png" alt="ParentingAI home screen with personalized prompts and trackers"></div>
+        <p class="phone-caption">Your home base, tuned to your child</p>
       </div>
-      <div class="phone-wrapper">
-        <div class="phone-frame">
-          <img src="screenshot-naps.png" alt="ParentingAI nap advice conversation">
-        </div>
-        <p class="phone-caption">Get actionable nap advice</p>
+      <div>
+        <div class="phone-frame"><img src="screenshot-chat.png" alt="ParentingAI conversation giving personalized night-waking advice"></div>
+        <p class="phone-caption">Real answers, personalized to her age</p>
       </div>
     </div>
   </section>
 
   <!-- Pricing -->
-  <section class="pricing" id="pricing">
-    <h2>Less than one parenting book a month</h2>
-    <p>Everything parents spend separately — replaced by one app.</p>
-    <div class="price-compare">
-      <div class="price-row">
-        <span class="price-row-label">Baby tracker app</span>
-        <span class="price-row-cost">$10/mo</span>
+  <section class="light-block pricing" id="pricing">
+    <p class="eyebrow">Simple pricing</p>
+    <h2 class="section-title">Less than one parenting book a month</h2>
+    <p class="section-sub">Everything parents pay for separately — replaced by one app.</p>
+    <div class="price-card">
+      <div class="price-compare">
+        <div class="price-row"><span class="price-row-label">Baby tracker app</span><span class="price-row-cost">$10/mo</span></div>
+        <div class="price-row"><span class="price-row-label">Sleep consultant (1 session)</span><span class="price-row-cost">$150</span></div>
+        <div class="price-row"><span class="price-row-label">Parenting book</span><span class="price-row-cost">$18</span></div>
+        <div class="price-row"><span class="price-row-label">Baby class (8 weeks)</span><span class="price-row-cost">$200</span></div>
       </div>
-      <div class="price-row">
-        <span class="price-row-label">Sleep consultant (1 session)</span>
-        <span class="price-row-cost">$150</span>
-      </div>
-      <div class="price-row">
-        <span class="price-row-label">Parenting book</span>
-        <span class="price-row-cost">$18</span>
-      </div>
-      <div class="price-row">
-        <span class="price-row-label">Baby class (8 weeks)</span>
-        <span class="price-row-cost">$200</span>
-      </div>
-      <div class="price-row price-row-hero">
-        <span class="price-row-label">ParentingAI — all of the above + more</span>
-        <span class="price-row-cost">$9.99<span>/mo</span></span>
+      <div class="price-hero">
+        <span class="ph-label">ParentingAI — all of the above + more<small>Best value · billed $59.99/year</small></span>
+        <span class="ph-cost">$4.99<span>/mo</span></span>
       </div>
     </div>
-    <p class="price-annual">Or save 50% with annual: <strong>$59.99/year</strong> — just $4.99/mo</p>
+    <p class="price-note"><strong>$59.99/year</strong> works out to just $4.99/mo. Prefer flexibility? <strong>$9.99/mo</strong> month-to-month. Every plan starts with a free trial.</p>
     <a href="#download" class="btn-primary">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+      <svg class="apple-icon" viewBox="0 0 24 24"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
       Download Free on iPhone
     </a>
   </section>
 
   <!-- Final CTA -->
   <section class="final-cta" id="download">
-    <h2>Your pediatrician is available 15 minutes a year. We're here for the other 525,585.</h2>
-    <p>Free to try. Cancel anytime. Your data stays yours.</p>
-    <a href="https://apps.apple.com/app/parentingai" class="btn-primary" style="font-size: 18px; padding: 18px 44px;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-      Get ParentingAI Free
-    </a>
+    <div class="final-cta-inner">
+      <img src="pa-heart-white.png" alt="" style="width:56px;height:56px;margin-bottom:18px;">
+      <h2>Every parent deserves an advisor who knows their child by name.</h2>
+      <p>Free to try. Cancel anytime. Your data stays yours.</p>
+      <a href="https://apps.apple.com/app/parentingai" class="btn-primary" style="font-size:18px; padding:18px 42px;">
+        <svg class="apple-icon" viewBox="0 0 24 24" style="width:22px;height:22px;"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+        Get ParentingAI Free
+      </a>
+    </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 ParentingAI &middot; <a href="/cdn-cgi/l/email-protection#4d25282121220d3d2c3f28233924232a2c24632e22"><span class="__cf_email__" data-cfemail="ef878a838380af9f8e9d8a819b8681888e86c18c80">[email&#160;protected]</span></a></p>
-    <p class="disclaimer">ParentingAI is for informational purposes only and is not a substitute for pro
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="pa-heart-white.png" alt="ParentingAI">
+          <span class="wordmark on-navy"><span class="parenting">Parenting</span><span class="ai">AI</span></span>
+        </a>
+        <p>The parenting advisor that actually knows your child. AI-powered advice, trackers, and a growing library — all in one app.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#download">Download</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="mailto:hello@parentingai.co">Support</a>
+          <a href="mailto:hello@parentingai.co">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ParentingAI LLC · For informational purposes only — not a substitute for professional medical advice. Always consult your pediatrician for medical concerns.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
