@@ -265,6 +265,22 @@
       .price-hero .ph-label { text-align: center; }
     }
     @media (max-width: 480px) { nav { padding: 12px 16px; } .nav-cta { padding: 8px 16px; font-size: 13px; } .phone-frame { width: 220px; } }
+    /* ── Waitlist (added 2026-08-25) ─────────────────────────────── */
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .hp { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
+    .waitlist { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; max-width:520px; margin:6px auto 0; }
+    .waitlist input[type="email"] {
+      flex:1 1 260px; padding:17px 18px; font-size:16px; font-family:inherit;
+      border:1px solid rgba(255,255,255,.22); border-radius:14px;
+      background:rgba(255,255,255,.06); color:#fff; -webkit-appearance:none;
+    }
+    .waitlist input[type="email"]::placeholder { color:rgba(255,255,255,.5); }
+    .waitlist input[type="email"]:focus { outline:2px solid var(--teal-light); outline-offset:1px; background:rgba(255,255,255,.10); }
+    .waitlist button { flex:0 0 auto; cursor:pointer; border:none; font-size:17px; padding:17px 34px; }
+    .waitlist button[disabled] { opacity:.6; cursor:default; }
+    .waitlist-note { font-size:13px; opacity:.7; margin-top:14px; }
+    .waitlist-done { font-size:18px; font-weight:700; color:var(--teal-light); margin-top:6px; }
+    @media (max-width:520px) { .waitlist { flex-direction:column; } .waitlist button { width:100%; } }
   </style>
 </head>
 <body>
@@ -292,25 +308,25 @@
     <div class="hero-content">
       <img src="pa-heart-white.png" alt="ParentingAI" class="hero-logo">
       <div class="wordmark on-navy"><span class="parenting">Parenting</span><span class="ai">AI</span></div>
-      <h1>Your parenting advisor that <span class="accent">actually knows</span> your child</h1>
+      <h1>Your parenting sidekick that <span class="accent">actually knows</span> your child</h1>
       <p class="sub">Books don't know your kid. Classes end. Searching at 3 AM gives you 47 opinions. ParentingAI gives you one clear answer — personalized for your child's exact age and stage.</p>
       <div class="hero-ctas">
-        <a href="#download" class="btn-primary">
-          <svg class="apple-icon" viewBox="0 0 24 24"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-          Download for iPhone
-        </a>
+        <a href="#download" class="btn-primary">Get early access</a>
         <a href="#features" class="btn-ghost-light">See what's inside</a>
       </div>
-      <p class="hero-pricing">Free to try · <strong>$4.99/mo</strong> billed annually · cancel anytime</p>
+      <p class="hero-pricing">Free plan included · <strong>$4.99/mo</strong> billed yearly (save 50%) · cancel anytime</p>
     </div>
   </section>
 
   <!-- Trust row -->
   <div class="trust">
     <div class="trust-inner">
-      <div class="trust-item"><span class="trust-stars">★★★★★</span><span><strong>Loved</strong> by early parents</span></div>
-      <div class="trust-item"><span>👶</span><span>Built for <strong>ages 0–18</strong></span></div>
-      <div class="trust-item"><span>🔒</span><span><strong>Private</strong> · your data stays yours</span></div>
+      <!-- The ★★★★★ "Loved by early parents" claim was removed 2026-08-25:
+           unsubstantiated ratings claim with no reviews behind it
+           (FTC 16 CFR 465). Replace it only with something true. -->
+      <div class="trust-item"><span>🌙</span><span>Built by a parent who got tired of <strong>googling at 3am</strong></span></div>
+      <div class="trust-item"><span>👶</span><span>Guidance <strong>0–18</strong> · charts &amp; schedules <strong>0–5</strong></span></div>
+      <div class="trust-item"><span>🔒</span><span><strong>No tracking</strong> · no ad SDKs, ever</span></div>
     </div>
   </div>
 
@@ -418,22 +434,28 @@
       </div>
     </div>
     <p class="price-note"><strong>$59.99/year</strong> works out to just $4.99/mo. Prefer flexibility? <strong>$9.99/mo</strong> month-to-month. Every plan starts with a free trial.</p>
-    <a href="#download" class="btn-primary">
-      <svg class="apple-icon" viewBox="0 0 24 24"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-      Download Free on iPhone
-    </a>
+    <p class="price-note" style="margin-top:-6px;">Not ready to subscribe? The free plan gives you 10 questions a month, unlimited saving and folders, all the trackers and the journal — free, forever, no card.</p>
+    <a href="#download" class="btn-primary">Get early access</a>
   </section>
 
   <!-- Final CTA -->
   <section class="final-cta" id="download">
     <div class="final-cta-inner">
       <img src="pa-heart-white.png" alt="" style="width:56px;height:56px;margin-bottom:18px;">
-      <h2>Every parent deserves an advisor who knows their child by name.</h2>
-      <p>Free to try. Cancel anytime. Your data stays yours.</p>
-      <a href="https://apps.apple.com/app/parentingai" class="btn-primary" style="font-size:18px; padding:18px 42px;">
-        <svg class="apple-icon" viewBox="0 0 24 24" style="width:22px;height:22px;"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.81 11.78 5.7 12.57 5.7C13.36 5.7 14.85 4.62 16.39 4.8C17.04 4.83 18.87 5.05 20.07 6.72C19.96 6.79 17.55 8.15 17.58 11.03C17.61 14.45 20.59 15.58 20.63 15.59C20.59 15.69 20.12 17.31 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
-        Get ParentingAI Free
-      </a>
+      <h2>Every parent deserves a sidekick who knows their child by name.</h2>
+      <p>We're finishing the last of the App Store gates. Leave your email and you'll be first through the door.</p>
+
+      <!-- SWAP-AT-LAUNCH: replace this form with the App Store link, tagged:
+           https://apps.apple.com/app/id6753187260?pt=YOUR_PT&ct=web_home_finalcta_2609&mt=8
+           Nothing links to the App Store untagged. -->
+      <form class="waitlist" id="waitlist" novalidate>
+        <label class="sr-only" for="wl-email">Email address</label>
+        <input id="wl-email" type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
+        <!-- honeypot: bots fill this, humans never see it -->
+        <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn-primary" type="submit">Get early access</button>
+      </form>
+      <p class="waitlist-note" id="wl-note">One email when it's live. Nothing else. Unsubscribe in one tap.</p>
     </div>
   </section>
 
@@ -445,7 +467,7 @@
           <img src="pa-heart-white.png" alt="ParentingAI">
           <span class="wordmark on-navy"><span class="parenting">Parenting</span><span class="ai">AI</span></span>
         </a>
-        <p>The parenting advisor that actually knows your child. AI-powered advice, trackers, and a growing library — all in one app.</p>
+        <p>The parenting sidekick that actually knows your child. AI-powered guidance, trackers, and a growing library — all in one app.</p>
       </div>
       <div class="footer-links">
         <div class="footer-col">
@@ -470,6 +492,47 @@
       <p>© 2026 ParentingAI LLC · For informational purposes only — not a substitute for professional medical advice. Always consult your pediatrician for medical concerns.</p>
     </div>
   </footer>
+
+  <script>
+    // ── Waitlist (added 2026-08-25) ──────────────────────────────────────
+    // Posts to /api/waitlist (Vercel serverless fn) which writes to Supabase.
+    // The ct value is carried through so we know which source produced the
+    // signup — see scripts/ct.mjs and measurement/ct-registry.csv.
+    (function () {
+      var form = document.getElementById('waitlist');
+      if (!form) return;
+      var note = document.getElementById('wl-note');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = form.email.value.trim();
+        if (!email || email.indexOf('@') < 1) { form.email.focus(); return; }
+        if (form.company.value) return;             // honeypot tripped — silently drop
+
+        var btn = form.querySelector('button');
+        btn.disabled = true;
+        btn.textContent = 'Adding you…';
+
+        fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            ct: new URLSearchParams(location.search).get('ct') || 'web_home_direct',
+            company: form.company.value
+          })
+        }).then(function (r) {
+          if (!r.ok) throw new Error('bad status ' + r.status);
+          form.outerHTML = '<p class="waitlist-done">You’re on the list. We’ll email you the day it’s live.</p>';
+          if (note) note.textContent = 'Thanks for being early.';
+        }).catch(function () {
+          btn.disabled = false;
+          btn.textContent = 'Try again';
+          if (note) note.textContent = 'Something went wrong — try again, or email hello@parentingai.co.';
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
