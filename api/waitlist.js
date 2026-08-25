@@ -82,9 +82,18 @@ export default async function handler(req, res) {
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
         "Content-Type": "application/json",
-        // Idempotent on the unique index — a repeat signup is a success,
-        // not an error the user should see.
-        Prefer: "resolution=ignore-duplicates,return=minimal",
+        // Plain insert only.
+        //
+        // This previously sent `resolution=ignore-duplicates` for
+        // idempotency, which makes PostgREST emit ON CONFLICT DO NOTHING.
+        // Under RLS that upsert path is evaluated against more than the
+        // INSERT policy — resolving the conflict requires reading the
+        // existing row — and this table deliberately has no SELECT policy.
+        // Result: every request failed with 42501 "new row violates row
+        // level security policy", even though a plain insert with the same
+        // key and role succeeds. Duplicates are handled by catching 409
+        // below instead.
+        Prefer: "return=minimal",
       },
       body: JSON.stringify([
         {
