@@ -494,10 +494,22 @@
   </footer>
 
   <script>
-    // ── Waitlist (added 2026-08-25) ──────────────────────────────────────
-    // Posts to /api/waitlist (Vercel serverless fn) which writes to Supabase.
-    // The ct value is carried through so we know which source produced the
+    // ── Waitlist (added 2026-08-25, rewired 2026-08-25) ──────────────────
+    // Posts DIRECTLY to Supabase PostgREST.
+    //
+    // WHY THE ANON KEY IS IN THIS PAGE, AND WHY THAT IS FINE
+    // This is Supabase's intended pattern. The anon key is a public
+    // identifier, not a secret — the same key already ships inside the iOS
+    // app on every user's phone. What protects the data is Row Level
+    // Security, not the key: the `waitlist` table has an INSERT-only policy
+    // for the anon role and NO select policy, so this key can add a row and
+    // can never read one back. Never put the service_role key here.
+    //
+    // The ct value is carried through so we know which source produced each
     // signup — see scripts/ct.mjs and measurement/ct-registry.csv.
+    var SB_URL = 'https://apbjqrnnilcfpbqapzln.supabase.co';
+    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwYmpxcm5uaWxjZnBicWFwemxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYyNjEwNjMsImV4cCI6MjA3MTgzNzA2M30.a-WPA8Y2z_YZIl1_VgnwrPcYY86inkgdCBzVUsuexBc';
+
     (function () {
       var form = document.getElementById('waitlist');
       if (!form) return;
@@ -513,16 +525,22 @@
         btn.disabled = true;
         btn.textContent = 'Adding you…';
 
-        fetch('/api/waitlist', {
+        var ct = new URLSearchParams(location.search).get('ct') || 'web_home_direct';
+        if (!/^[a-z0-9_-]{1,64}$/i.test(ct)) ct = 'web_home_direct';
+
+        fetch(SB_URL + '/rest/v1/waitlist', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: email,
-            ct: new URLSearchParams(location.search).get('ct') || 'web_home_direct',
-            company: form.company.value
-          })
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify([{ email: email.toLowerCase(), source: ct }])
         }).then(function (r) {
-          if (!r.ok) throw new Error('bad status ' + r.status);
+          // 201 = inserted. 409 = already on the list, which is a success
+          // from the visitor's point of view — never tell them they failed.
+          if (!r.ok && r.status !== 409) throw new Error('bad status ' + r.status);
           form.outerHTML = '<p class="waitlist-done">You’re on the list. We’ll email you the day it’s live.</p>';
           if (note) note.textContent = 'Thanks for being early.';
         }).catch(function () {
