@@ -40,7 +40,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "method_not_allowed" });
   }
 
-  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
+  // Env values get pasted by hand into a dashboard, so treat them as dirty.
+  // A trailing newline on the key produces a malformed Authorization header
+  // and Supabase rejects it; a trailing slash on the URL produces a double
+  // slash and PostgREST 404s. Both fail identically and opaquely, so strip
+  // them here rather than relying on whoever pasted them being careful.
+  const SUPABASE_URL = (process.env.SUPABASE_URL || "").trim().replace(/\/+$/, "");
+  const SUPABASE_ANON_KEY = (process.env.SUPABASE_ANON_KEY || "").replace(/\s/g, "");
+
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     console.error("waitlist: missing SUPABASE_URL or SUPABASE_ANON_KEY");
     return res.status(500).json({ error: "not_configured" });
@@ -89,8 +96,12 @@ export default async function handler(req, res) {
     });
 
     if (!r.ok && r.status !== 409) {
-      console.error("waitlist: supabase responded", r.status, await r.text());
-      return res.status(502).json({ error: "upstream" });
+      const detail = await r.text();
+      console.error("waitlist: supabase responded", r.status, detail);
+      // Surface the upstream status code (never the body) so a failure is
+      // diagnosable from a plain curl instead of the Vercel log viewer.
+      // 401 = bad key · 404 = bad URL · 403 = RLS or missing grant.
+      return res.status(502).json({ error: "upstream", upstream_status: r.status });
     }
     return res.status(200).json({ ok: true });
   } catch (err) {
