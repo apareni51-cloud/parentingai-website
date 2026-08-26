@@ -1,3 +1,17 @@
 ct,channel,source,asset,yymm,url,created,note
 ig_bio_default_2608,ig,bio,default,2608,https://parentingai.co/?ct=ig_bio_default_2608,2026-08-25,Instagram bio link — swap to App Store link at launch
 web_home_direct,web,home,direct,2608,https://parentingai.co/,2026-08-25,Reserved sentinel for untagged direct traffic. Do not reuse.
+blog_index_2608,blog,index,default,2608,https://www.parentingai.co/?ct=blog_index_2608,2026-08-25,Blog index nav CTA
+blog_sleep-regression_2608,blog,post,sleep-regression,2608,https://www.parentingai.co/?ct=blog_sleep-regression_2608,2026-08-25,Post CTA
+blog_tantrums_2608,blog,post,tantrums,2608,https://www.parentingai.co/?ct=blog_tantrums_2608,2026-08-25,Post CTA
+blog_potty-training_2608,blog,post,potty-training,2608,https://www.parentingai.co/?ct=blog_potty-training_2608,2026-08-25,Post CTA
+blog_crying_2608,blog,post,crying,2608,https://www.parentingai.co/?ct=blog_crying_2608,2026-08-25,Post CTA
+blog_screen-time_2608,blog,post,screen-time,2608,https://www.parentingai.co/?ct=blog_screen-time_2608,2026-08-25,Post CTA
+blog_solids_2608,blog,post,solids,2608,https://www.parentingai.co/?ct=blog_solids_2608,2026-08-25,Post CTA
+blog_teething_2608,blog,post,teething,2608,https://www.parentingai.co/?ct=blog_teething_2608,2026-08-25,Post CTA
+blog_wake-windows_2608,blog,post,wake-windows,2608,https://www.parentingai.co/?ct=blog_wake-windows_2608,2026-08-25,Post CTA
+blog_picky-eating_2608,blog,post,picky-eating,2608,https://www.parentingai.co/?ct=blog_picky-eating_2608,2026-08-25,Post CTA
+blog_safe-sleep_2608,blog,post,safe-sleep,2608,https://www.parentingai.co/?ct=blog_safe-sleep_2608,2026-08-25,Post CTA
+blog_fever_2608,blog,post,fever,2608,https://www.parentingai.co/?ct=blog_fever_2608,2026-08-25,Post CTA
+blog_milestones_2608,blog,post,milestones,2608,https://www.parentingai.co/?ct=blog_milestones_2608,2026-08-25,Post CTA
+blog_mental-health_2608,blog,post,mental-health,2608,https://www.parentingai.co/?ct=blog_mental-health_2608,2026-08-25,Post CTA
