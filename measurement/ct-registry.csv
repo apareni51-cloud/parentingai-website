@@ -1,5 +1,5 @@
 ct,channel,source,asset,yymm,url,created,note
-ig_bio_default_2608,ig,bio,default,2608,https://parentingai.co/?ct=ig_bio_default_2608,2026-08-25,Instagram bio link — swap to App Store link at launch
+ig_bio_default_2608,ig,bio,default,2608,https://parentingai.co/?ct=ig_bio_default_2608,2026-08-25,Instagram bio link - bio displays parentingai.co/ig which 302-redirects to this tagged URL (vercel.json). Swap redirect destination to App Store link at launch
 web_home_direct,web,home,direct,2608,https://parentingai.co/,2026-08-25,Reserved sentinel for untagged direct traffic. Do not reuse.
 blog_index_2608,blog,index,default,2608,https://www.parentingai.co/?ct=blog_index_2608,2026-08-25,Blog index nav CTA
 blog_sleep-regression_2608,blog,post,sleep-regression,2608,https://www.parentingai.co/?ct=blog_sleep-regression_2608,2026-08-25,Post CTA

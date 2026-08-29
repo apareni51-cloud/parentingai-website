@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/ig",
+      "destination": "/?ct=ig_bio_default_2608",
+      "permanent": false
+    }
+  ]
+}
