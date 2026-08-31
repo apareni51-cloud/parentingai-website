@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <title>A gift for you — ParentingAI</title>
+  <meta name="description" content="30 days of ParentingAI, free — a gift from a creator you follow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#031C3A; --teal:#006878; --teal-bright:#14B8A6; --teal-light:#2DD4BF; --bg:#F9FBFC; --card:#FFFFFF; --text:#0D2538; --subtext:#7A8595; --border:#E5E7EB; --radius-pill:999px; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; color:var(--text); background:var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh; display:flex; flex-direction:column; }
+    .wordmark { display:inline-flex; align-items:baseline; gap:1px; font-family:'Poppins',sans-serif; font-weight:700; }
+    .wordmark .parenting { color:#0D2538; font-size:18px; } .wordmark .ai { color:#0A8FA3; font-size:15px; }
+    nav { padding:14px 24px; display:flex; align-items:center; }
+    .nav-logo { display:flex; align-items:center; gap:9px; text-decoration:none; } .nav-logo img { width:34px; height:34px; }
+    main { flex:1; display:flex; align-items:center; justify-content:center; padding:24px 22px 60px; }
+    .gift { max-width:480px; width:100%; background:var(--card); border:1px solid var(--border); border-radius:22px; padding:38px 32px; text-align:center; box-shadow:0 8px 30px rgba(3,28,58,.07); }
+    .gift .from { display:inline-block; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); background:#E6F6F3; padding:7px 14px; border-radius:var(--radius-pill); margin-bottom:18px; }
+    .gift h1 { font-size:clamp(24px,5vw,30px); font-weight:800; line-height:1.2; letter-spacing:-.02em; margin-bottom:12px; }
+    .gift .sub { font-size:15.5px; color:var(--subtext); margin-bottom:26px; }
+    .cta-btn { display:inline-block; background:linear-gradient(135deg,#0D9488,var(--teal-bright)); color:#fff; padding:15px 34px; border-radius:var(--radius-pill); text-decoration:none; font-weight:700; font-size:16px; border:none; cursor:pointer; font-family:inherit; }
+    .fine { font-size:12.5px; color:var(--subtext); margin-top:20px; line-height:1.5; }
+    form { display:flex; flex-direction:column; gap:10px; }
+    input[type=email] { padding:14px 16px; border:1px solid var(--border); border-radius:12px; font-size:15.5px; font-family:inherit; width:100%; }
+    input[type=email]:focus { outline:2px solid var(--teal-bright); border-color:transparent; }
+    .hp { position:absolute; left:-9999px; opacity:0; }
+    .ok { color:var(--teal); font-weight:600; font-size:15.5px; }
+    .err { color:#BE4229; font-size:13.5px; }
+    footer { text-align:center; padding:20px 22px 30px; font-size:12.5px; color:var(--subtext); }
+    footer a { color:var(--teal); text-decoration:none; }
+    [hidden] { display:none !important; }
+  </style>
+</head>
+<body>
+  <nav><a href="/" class="nav-logo"><img src="/pa-heart-teal.png" alt="ParentingAI logo"><span class="wordmark"><span class="parenting">Parenting</span><span class="ai">AI</span></span></a></nav>
+  <main>
+    <div class="gift" id="card">
+      <span class="from" id="from" hidden></span>
+      <h1 id="headline">One sec…</h1>
+      <p class="sub" id="sub"></p>
+
+      <!-- Post-launch path: straight to Apple's offer-code redemption -->
+      <a class="cta-btn" id="redeem" href="#" hidden>Claim your 30 days free</a>
+
+      <!-- Pre-launch path: capture the email, gift waits at launch -->
+      <form id="wl" hidden>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+        <input type="text" id="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="cta-btn" type="submit">Save my 30 days free</button>
+      </form>
+      <p class="ok" id="done" hidden>You're on the list — your 30 days will be waiting on launch day. 💚</p>
+      <p class="err" id="err" hidden></p>
+
+      <p class="fine" id="fine" hidden>Free 30-day offer on the annual plan, redeemed through the App Store. No card charged during the offer. Cancel anytime in your App Store settings.</p>
+    </div>
+  </main>
+  <footer>© 2026 ParentingAI LLC · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></footer>
+
+  <script>
+  (async function () {
+    var m = location.pathname.match(/^\/c\/([A-Za-z0-9_-]{1,64})\/?$/);
+    var handle = m ? m[1].toLowerCase() : null;
+    var $ = function (id) { return document.getElementById(id); };
+
+    function homeward() { location.replace("/?ct=ig_bio_default_2608"); }
+    if (!handle) return homeward();
+
+    var creators = {};
+    try {
+      creators = await fetch("/c/creators.json", { cache: "no-store" }).then(function (r) { return r.json(); });
+    } catch (e) { return homeward(); }
+
+    var c = creators[handle];
+    if (!c || c.active === false) return homeward();
+
+    // Log the click — fire and forget; the page never blocks on it.
+    try {
+      fetch("/api/creator-click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ handle: handle, referrer: document.referrer || null }),
+        keepalive: true
+      });
+    } catch (e) {}
+
+    $("from").textContent = "A gift from " + (c.name || "@" + handle);
+    $("from").hidden = false;
+    $("fine").hidden = false;
+
+    if (c.redeem_url) {
+      $("headline").textContent = "30 days of ParentingAI, free.";
+      $("sub").textContent = (c.name || "They") + " uses ParentingAI with their own family — and their code gives you a full month of the parenting sidekick that actually knows your child.";
+      var btn = $("redeem");
+      btn.href = c.redeem_url;
+      btn.hidden = false;
+    } else {
+      $("headline").textContent = "30 days free — reserved for you.";
+      $("sub").textContent = "ParentingAI is finishing its last App Store steps. Leave your email and " + (c.name || "your creator") + "'s 30-day gift will be waiting for you the day it launches.";
+      $("wl").hidden = false;
+      $("wl").addEventListener("submit", async function (ev) {
+        ev.preventDefault();
+        $("err").hidden = true;
+        try {
+          var r = await fetch("/api/waitlist", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: $("email").value.trim(),
+              ct: "c_" + handle,
+              company: $("company").value
+            })
+          });
+          if (!r.ok) throw new Error("status " + r.status);
+          $("wl").hidden = true;
+          $("done").hidden = false;
+        } catch (e) {
+          $("err").textContent = "That didn't go through — try once more?";
+          $("err").hidden = false;
+        }
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

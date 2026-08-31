@@ -1,0 +1,8 @@
+{
+  "_readme": "One entry per creator. Key = handle used in parentingai.co/c/<handle> (lowercase, a-z 0-9 _ -). Fields: name (display name shown on the page), active (false kills the link instantly), redeem_url (Apple offer-code redemption URL — leave empty string pre-launch; the page shows the waitlist capture instead until it's set). Adding a creator = add an entry here + push. See docs/CREATOR_LINKS_RUNBOOK.md in the project.",
+  "test": {
+    "name": "Test Creator",
+    "active": true,
+    "redeem_url": ""
+  }
+}

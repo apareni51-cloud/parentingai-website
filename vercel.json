@@ -5,5 +5,11 @@
       "destination": "/?ct=ig_bio_default_2608",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/c/:handle([A-Za-z0-9_-]{1,64})",
+      "destination": "/c/index.html"
+    }
   ]
 }
